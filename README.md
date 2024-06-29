@@ -13,7 +13,6 @@ c. Endpoint HTTP para servir parte de los datos almacenados
 Este documento README tiene el proposito de documentar la solución de cada parte del desafío a entregar maximo el dia lunes 1 de julio.
 
 
-
 **Solución**
 
 Teniendo en cuenta el esquema Pub/Sub proponemos los siguientes servicios en la nube GCP para abordar el desafio
