@@ -12,13 +12,6 @@ c. Endpoint HTTP para servir parte de los datos almacenados
 
 Este documento README tiene el proposito de documentar la solución de cada parte del desafío a entregar maximo el dia lunes 1 de julio.
 
-### Parte 1:Infraestructura e IaC ###
-
-* 1. Identificar la infraestructura necesaria para ingestar, almacenar y exponer datos:
-a. Utilizar el esquema Pub/Sub (no confundir con servicio Pub/Sub de Google)
-para ingesta de datos
-b. Base de datos para el almacenamiento enfocado en analítica de datos
-c. Endpoint HTTP para servir parte de los datos almacenados
 
 
 **Solución**
