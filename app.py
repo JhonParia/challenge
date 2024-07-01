@@ -6,15 +6,7 @@ from google.cloud import bigquery
 
 app = Flask(__name__)
 
-# Configura las credenciales de Google Cloud usando el secreto
-credentials_json = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON")
-if credentials_json:
-    credentials_dict = json.loads(credentials_json)
-    credentials = service_account.Credentials.from_service_account_info(credentials_dict)
-else:
-    raise ValueError("No credentials environment variable found.")
-
-client = bigquery.Client(credentials=credentials)
+client = bigquery.Client()
 
 
 # Define el nombre de tu proyecto, dataset y tabla
