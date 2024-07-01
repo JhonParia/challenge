@@ -1,0 +1,10 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challenge3:latest', '.']
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challenge3:latest']
+
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args: ['run', 'deploy', 'api-srv', '--image', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challenge3:latest', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
