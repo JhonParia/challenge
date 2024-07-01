@@ -5,7 +5,10 @@ resource "google_cloud_run_service" "api" {
   template {
     spec {
       containers {
-        image = "us-docker.pkg.dev/cloudrun/container/hello"
+        ports {
+          container_port = 5000
+        }
+        image = "us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challenge:latest"
       }
     }
   }
