@@ -1,12 +1,15 @@
 import os
 from flask import Flask, jsonify
+from google.oauth2 import service_account
 from google.cloud import bigquery
 
 app = Flask(__name__)
 
-# Configura esta variable con tu archivo de credenciales JSON de Google Cloud
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "latamSA.json"
-client = bigquery.Client()
+# Configura las credenciales de Google Cloud usando el secreto
+credentials_json = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON")
+credentials = service_account.Credentials.from_service_account_info(credentials_json)
+client = bigquery.Client(credentials=credentials)
+
 
 # Define el nombre de tu proyecto, dataset y tabla
 project_id = 'latam-challenge-427922'
