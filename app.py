@@ -1,6 +1,6 @@
 import os
-import jsonify
-from flask import Flask
+import json
+from flask import Flask, jsonify
 from google.oauth2 import service_account
 from google.cloud import bigquery
 
