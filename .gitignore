@@ -48,3 +48,9 @@ Thumbs.db
 *.mov
 *.wmv
 
+#terraform
+
+infraestructura/.terraform/
+infraestructura/.terraform.lock.hcl
+*.json
+*.tfstate*
