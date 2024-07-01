@@ -68,6 +68,8 @@ Se agrega inicialmente un registro de datos para verificar la exposicion de dato
 Se genera el dockerfile para poder verificar el endpoint con postman primero localmente, luego se sube a la nube, para ello 
 se hace uso de Cloud Run Service, previamente la imagen generada se sube al repositorio (us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge)
 
+El API esta expuesto en https://api-srv-zfwnqi5ayq-uc.a.run.app/books
+
 
 2. Deployar API HTTP en la nube mediante CI/CD a tu elección. Flujo CI/CD y
 ejecuciones deben estar visibles en el repositorio git.
