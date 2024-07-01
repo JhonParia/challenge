@@ -2,10 +2,22 @@ options:
   logging: 'CLOUD_LOGGING_ONLY'
 
 steps:
+# Fase de construccion de la imagen 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challenge3:latest', '.']
+  secretEnv: ['MY_SECRET_KEY']
+# Fase de carga de la imagen en el repositorio 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challenge3:latest']
+# Fase de despliegue de la aplicación
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args: ['run', 'deploy', 'api-srv', '--image', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challenge2:latest', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
+
+
+availableSecrets:
+  secretManager:
+  - versionName: 'projects/937735902837/secrets/latam/versions/1'
+    env: 'MY_SECRET_KEY'
+
+    
