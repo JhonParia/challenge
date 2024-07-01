@@ -4,15 +4,15 @@ options:
 steps:
 # Fase de construccion de la imagen 
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challenge3:latest', '.']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challenge4:latest', '.']
   secretEnv: ['MY_SECRET_KEY']
 # Fase de carga de la imagen en el repositorio 
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challenge3:latest']
+  args: ['push', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challenge4:latest']
 # Fase de despliegue de la aplicación
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
-  args: ['run', 'deploy', 'api-srv', '--image', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challenge2:latest', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
+  args: ['run', 'deploy', 'api-srv', '--image', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challenge4:latest', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
 
 
 availableSecrets:
