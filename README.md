@@ -85,6 +85,11 @@ La ingesta se da con una simulacion en el archivo (publish.py)
 4. Incluye un diagrama de arquitectura con la infraestructura del punto 1.1 y su
 interacción con los servicios/aplicaciones que demuestra el proceso end-to-end de
 ingesta hasta el consumo por la API HTTP
+
+![Arquitectura](latam.png)
+
+
+
 Comentarios:
 - Recomendamos usar un servicio serverless mediante Dockerfile para optimizar el tiempo de
 desarrollo y deployment para la API HTTP
@@ -171,8 +176,28 @@ este escalamiento.
 
 **Solución**
 
+Al escalar a 50 sistemas similares, la visualización y el monitoreo se vuelven más complejos debido al volumen incrementado de datos y la necesidad de diferenciar el rendimiento y la salud entre múltiples sistemas. Aquí están los ajustes y nuevas capacidades que deberías considerar:
+
+Dashboard Dinámico en Grafana: Utilizar etiquetas o tags para agrupar sistemas por características como la región, el tipo de servicio, o la carga de trabajo. Esto permite a los usuarios filtrar y comparar fácilmente los sistemas relevantes.
+Agregación de Métricas: Para obtener una visión general y comparativa, se deberían agregar métricas como el tiempo de respuesta promedio, tasa de errores, y uso de recursos a nivel de grupo de sistemas o de toda la empresa.
+Alertas Contextuales: Configurar alertas que consideren el contexto del sistema. Por ejemplo, una carga alta podría ser normal para un sistema en horario pico, pero indicativa de un problema para otro en horas no pico.
+Métricas de Eficiencia de Escalado: Monitorear cómo la adición de nuevos sistemas afecta a la eficiencia general, por ejemplo, el rendimiento por núcleo o por GB de RAM, para asegurar que el escalado es efectivamente mejorando la capacidad sin degradar la eficiencia.
 
 5. Comenta qué dificultades o limitaciones podrían surgir a nivel de observabilidad de
 los sistemas de no abordarse correctamente el problema de escalabilidad
 
 **Solución**
+
+
+Problemas Potenciales:
+Si no se aborda correctamente el problema de escalabilidad en el monitoreo y la observabilidad, pueden surgir varios problemas y limitaciones:
+
+Sobrecarga de Datos: La infraestructura de monitoreo puede verse abrumada por el volumen de datos generados por 50 sistemas, lo que puede resultar en lentitud en la actualización de dashboards, alertas perdidas o datos incompletos.
+Retrasos en la Identificación de Problemas: Con muchos sistemas, identificar rápidamente la causa raíz de los problemas puede ser desafiante. Las métricas mal diseñadas o la falta de adecuadas visualizaciones pueden ocultar problemas hasta que ya han causado impactos significativos.
+Costo de Almacenamiento y Procesamiento: Almacenar y procesar un gran volumen de métricas puede ser costoso. Las estrategias ineficientes pueden conducir a gastos excesivos sin mejorar la observabilidad.
+Complejidad de Gestión: Manejar alertas y configuraciones para múltiples sistemas puede volverse intrincadamente complejo, especialmente si las configuraciones no están centralizadas o automatizadas.
+Soluciones Recomendadas:
+
+Escalabilidad de la Infraestructura de Monitoreo: Asegurarse de que la solución de monitoreo puede escalar horizontalmente. Usar servicios que permitan el escalado automático basado en la carga, como Prometheus en un clúster de Kubernetes.
+Optimización del Almacenamiento de Datos: Implementar políticas de retención de datos y agregación de métricas para reducir la cantidad de datos almacenados sin perder granularidad crítica para el diagnóstico.
+Centralización y Automatización: Utilizar herramientas de gestión de configuración para mantener las alertas y las métricas configuradas de manera consistente y centralizada. Automatizar las respuestas a problemas comunes para reducir la carga operativa.
