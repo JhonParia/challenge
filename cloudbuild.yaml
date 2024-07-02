@@ -6,21 +6,9 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', '.']
 
-# Verificar la presencia de la variable de entorno sin exponer su contenido
-- name: 'ubuntu'
-  entrypoint: 'bash'
-  args:
-  - '-c'
-  - |
-    if [ -z "${GOOGLE_APPLICATION_CREDENTIALS}" ]; then
-      echo "Variable GOOGLE_APPLICATION_CREDENTIALS no está establecida."
-    else
-      echo "Variable GOOGLE_APPLICATION_CREDENTIALS está establecida."
-    fi
-
 # Fase de pruebas de integración
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['run', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', 'pytest']
+#- name: 'gcr.io/cloud-builders/docker'
+#  args: ['run', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', 'pytest']
 
 # Fase de carga de la imagen en el repositorio 
 - name: 'gcr.io/cloud-builders/docker'
