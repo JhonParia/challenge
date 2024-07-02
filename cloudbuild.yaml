@@ -2,17 +2,25 @@ options:
   logging: 'CLOUD_LOGGING_ONLY'
 
 steps:
-# Fase de construccion de la imagen 
+# Fase de construcción de la imagen 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', '.']
-  secretEnv: ['GOOGLE_APPLICATION_CREDENTIALS']
+
+# Verificar la presencia de la variable de entorno sin exponer su contenido
+- name: 'ubuntu'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    if [ -z "${GOOGLE_APPLICATION_CREDENTIALS}" ]; then
+      echo "Variable GOOGLE_APPLICATION_CREDENTIALS no está establecida."
+    else
+      echo "Variable GOOGLE_APPLICATION_CREDENTIALS está establecida."
+    fi
 
 # Fase de pruebas de integración
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['run', '-e', 'GOOGLE_APPLICATION_CREDENTIALS=/secrets/latamSA.json', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', 'pytest']
-  volumes:
-  - name: 'vol1'
-    path: '/secrets'
+  args: ['run', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', 'pytest']
 
 # Fase de carga de la imagen en el repositorio 
 - name: 'gcr.io/cloud-builders/docker'
@@ -22,8 +30,3 @@ steps:
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args: ['run', 'deploy', 'api-srv', '--image', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
-
-availableSecrets:
-  secretManager:
-  - versionName: 'projects/937735902837/secrets/latamSA/versions/latest'
-    env: 'GOOGLE_APPLICATION_CREDENTIALS'
