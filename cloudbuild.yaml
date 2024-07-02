@@ -5,10 +5,11 @@ steps:
 # Fase de construcción de la imagen 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', '.']
-
+  secretEnv: ['SECRET_KEY']
 # Fase de pruebas de integración
 - name: 'gcr.io/cloud-builders/docker'
   args: ['run', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', 'pytest']
+  secretEnv: ['SECRET_KEY']
 
 # Fase de carga de la imagen en el repositorio 
 - name: 'gcr.io/cloud-builders/docker'
@@ -18,3 +19,9 @@ steps:
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args: ['run', 'deploy', 'api-srv', '--image', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
+
+
+availableSecrets:
+  secretManager:
+  - versionName: projects/latam-challenge-427922/secrets/latam/versions/latest
+    env: 'SECRET_KEY'

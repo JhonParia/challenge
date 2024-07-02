@@ -11,10 +11,10 @@ RUN pip install -r requirements.txt
 # Copiar los archivos necesarios al contenedor
 COPY . .
 
+# Establecer variables de entorno
 
 ARG SECRET_KEY
-ENV GOOGLE_APPLICATION_CREDENTIALS_JSON=$SECRET_KEY
-# Establecer variables de entorno
+ENV GOOGLE_APPLICATION_CREDENTIALS=$SECRET_KEY
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=development
 
