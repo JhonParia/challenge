@@ -127,6 +127,10 @@ implementar)
 
 
 **Solución**
+Podemos considerar lo siguiente:
+
+Escalabilidad: Prueba de carga para ver cómo el sistema maneja grandes volúmenes de solicitudes.
+Dependencia de la base de datos: Medir tiempos de respuesta y tasa de errores cuando la base de datos tiene latencia alta o está caída.
 4. Proponer cómo robustecer técnicamente el sistema para compensar o solucionar
 dichos puntos críticos
 
