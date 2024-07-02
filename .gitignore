@@ -9,7 +9,7 @@ dist/
 
 # virtual envs
 
-#myenv/
+myenv/
 # Compiled Java class files
 *.class
 
