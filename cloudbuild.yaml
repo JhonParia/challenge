@@ -6,6 +6,9 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', '.']
   secretEnv: ['MY_SECRET_KEY']
+# Fase de pruebas de integración
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['run', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', 'pytest']
 # Fase de carga de la imagen en el repositorio 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest']
