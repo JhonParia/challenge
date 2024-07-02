@@ -101,13 +101,21 @@ efectivamente está exponiendo los datos de la base de datos. Argumenta.
 
 **Solución**
 
-Se verifica que el API 
+Se implementa con pytest un test de integración que verifique la conexión y la exposición correcta de los datos desde la base de datos por parte de la API. Esto asegura que la API no sólo está operativa sino que también interactúa adecuadamente con la base de datos. 
+
+Este test es crucial porque valida que la capa de integración entre la base de datos y la API funcione según lo esperado. Fallas en esta área podrían llevar a datos incorrectos o a la falta de disponibilidad de estos, afectando directamente la usabilidad de la aplicación.
 
 2. Proponer otras pruebas de integración que validen que el sistema está funcionando
 correctamente y cómo se implementarían.
 
 
 **Solución**
+
+Pruebas de Carga: Validar cómo la API maneja un número elevado de solicitudes simultáneas. Implementación mediante herramientas como JMeter o Locust.
+
+Pruebas de Fallos: Simular fallos en las dependencias (como la base de datos) y observar la respuesta de la API. Se pueden usar herramientas como Chaos Monkey para introducir estos fallos de manera controlada.
+
+
 3. Identificar posibles puntos críticos del sistema (a nivel de fallo o performance)
 diferentes al punto anterior y proponer formas de testearlos o medirlos (no
 implementar)
@@ -125,3 +133,46 @@ Comentarios:
 
 ### Parte 4: Métricas y Monitoreo ###
 
+
+1. Proponer 3 métricas (además de las básicas CPU/RAM/DISK USAGE) críticas para
+entender la salud y rendimiento del sistema end-to-end
+
+**Solución**
+
+
+Métricas Críticas
+
+* Tasa de Errores: Proporción de solicitudes fallidas frente a solicitudes totales.
+* Tiempo de Respuesta: Tiempo que toma procesar una solicitud.
+* Saturación: Nivel de carga que soporta la API antes de degradar el servicio.
+
+
+2. Proponer una herramienta de visualización y describe textualmente qué métricas
+mostraría, y cómo esta información nos permitiría entender la salud del sistema para
+tomar decisiones estratégicas
+
+**Solución**
+
+Grafana.
+Métricas a Mostrar: Tasa de errores, tiempo de respuesta, saturación, CPU, RAM y uso de disco.
+Beneficios: Permite una visualización en tiempo real del estado del sistema, ayudando a tomar decisiones proactivas para prevenir fallos.
+
+
+3. Describe a grandes rasgos cómo sería la implementación de esta herramienta en la
+nube y cómo esta recolectaría las métricas del sistema
+
+**Solución**
+
+Se podria montar en una instancia de compute engine un grafana con prometheus. Este podria ser con un docker compose tener los dos contenedores cada uno con sus configuraciones.
+
+4. Describe cómo cambiará la visualización si escalamos la solución a 50 sistemas
+similares y qué otras métricas o formas de visualización nos permite desbloquear
+este escalamiento.
+
+**Solución**
+
+
+5. Comenta qué dificultades o limitaciones podrían surgir a nivel de observabilidad de
+los sistemas de no abordarse correctamente el problema de escalabilidad
+
+**Solución**

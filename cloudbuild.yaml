@@ -32,7 +32,6 @@ steps:
   args: ['push', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest']
 
 # Fase de despliegue de la aplicación
-# Fase de despliegue de la aplicación
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: 'gcloud'
   args:
@@ -47,10 +46,8 @@ steps:
     - 'us-central1'
     - '--allow-unauthenticated'
     - '--set-env-vars'
-    - 'GOOGLE_APPLICATION_CREDENTIALS=/workspace/latamSA.json'
-  volumes:
-    - name: 'vol1'
-      path: '/workspace'
+    - 'GOOGLE_APPLICATION_CREDENTIALS=/workspace/config/latamSA.json'
+
 
 
 availableSecrets:
