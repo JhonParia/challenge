@@ -6,10 +6,26 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', '.']
   secretEnv: ['SECRET_KEY']
+
+  # Paso para escribir el contenido del secreto en un archivo
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    echo $${SECRET_KEY} > /workspace/latamSA.json
+  secretEnv: ['SECRET_KEY']
+
 # Fase de pruebas de integración
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['run', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', 'pytest']
-  secretEnv: ['SECRET_KEY']
+  args:
+    - 'run'
+    - '-v'
+    - '/workspace/latamSA.json:/tmp/latamSA.json'
+    - '-e'
+    - 'GOOGLE_APPLICATION_CREDENTIALS=/tmp/latamSA.json'
+    - 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest'
+    - 'pytest'
 
 # Fase de carga de la imagen en el repositorio 
 - name: 'gcr.io/cloud-builders/docker'
