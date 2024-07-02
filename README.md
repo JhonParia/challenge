@@ -2,6 +2,8 @@
 
 Este documento README tiene el proposito de documentar la solución de cada parte del desafío a entregar maximo el dia lunes 1 de julio.
 
+Este es el endpoint de consumo: https://api-srv-zfwnqi5ayq-uc.a.run.app/books
+
 ### Parte 1:Infraestructura e IaC ###
 
 1. Identificar la infraestructura necesaria para ingestar, almacenar y exponer datos:
