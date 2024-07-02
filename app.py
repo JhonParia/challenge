@@ -6,8 +6,11 @@ from google.cloud import bigquery
 
 app = Flask(__name__)
 
-client = bigquery.Client()
-
+# Cargar credenciales de Service Account desde el archivo especificado en una variable de entorno
+with open(os.getenv("GOOGLE_APPLICATION_CREDENTIALS"), 'r') as file:
+    credentials_json = json.load(file)
+credentials = service_account.Credentials.from_service_account_info(credentials_json)
+client = bigquery.Client(credentials=credentials)
 
 # Define el nombre de tu proyecto, dataset y tabla
 project_id = 'latam-challenge-427922'

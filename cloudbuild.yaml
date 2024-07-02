@@ -2,22 +2,55 @@ options:
   logging: 'CLOUD_LOGGING_ONLY'
 
 steps:
-# Fase de construccion de la imagen 
+# Fase de construcción de la imagen 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', '.']
-  secretEnv: ['MY_SECRET_KEY']
+  secretEnv: ['SECRET_KEY']
+
+  # Paso para escribir el contenido del secreto en un archivo
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    echo $${SECRET_KEY} > /workspace/latamSA.json
+  secretEnv: ['SECRET_KEY']
+
+# Fase de pruebas de integración
+- name: 'gcr.io/cloud-builders/docker'
+  args:
+    - 'run'
+    - '-v'
+    - '/workspace/latamSA.json:/tmp/latamSA.json'
+    - '-e'
+    - 'GOOGLE_APPLICATION_CREDENTIALS=/tmp/latamSA.json'
+    - 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest'
+    - 'pytest'
+
 # Fase de carga de la imagen en el repositorio 
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest']
+
 # Fase de despliegue de la aplicación
 - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-  entrypoint: gcloud
-  args: ['run', 'deploy', 'api-srv', '--image', 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest', '--platform', 'managed', '--region', 'us-central1', '--allow-unauthenticated']
+  entrypoint: 'gcloud'
+  args:
+    - 'run'
+    - 'deploy'
+    - 'api-srv'
+    - '--image'
+    - 'us-central1-docker.pkg.dev/latam-challenge-427922/latam-challenge/challengef:latest'
+    - '--platform'
+    - 'managed'
+    - '--region'
+    - 'us-central1'
+    - '--allow-unauthenticated'
+    - '--set-env-vars'
+    - 'GOOGLE_APPLICATION_CREDENTIALS=/workspace/config/latamSA.json'
+
 
 
 availableSecrets:
   secretManager:
-  - versionName: 'projects/937735902837/secrets/latam/versions/1'
-    env: 'MY_SECRET_KEY'
-
-    
+  - versionName: projects/latam-challenge-427922/secrets/latam/versions/latest
+    env: 'SECRET_KEY'
